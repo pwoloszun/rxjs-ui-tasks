@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest } from 'rxjs';
-import { distinctUntilChanged, startWith, map } from 'rxjs/operators';
-import { sortBy } from 'lodash';
+import { sortBy, orderBy } from 'lodash';
 
 import { ForexApiService, FxCurrency } from '@api/forex-api.service';
 
@@ -24,23 +22,16 @@ export class CurrencyExchangePageComponent implements OnInit {
 
   sortByCtrl = new FormControl(this.sortOptionsService.initialSortBy);
 
-  private sortByValue$ = this.sortByCtrl.valueChanges.pipe(
-    startWith(this.sortOptionsService.initialSortBy),
-    map((sortByValue) => sortByValue === null ? '' : sortByValue),
-    distinctUntilChanged(),
-  );
+  // TODO: tmp remove
+  sortByValueChanges$ = this.sortByCtrl.valueChanges;
 
-  private ratesChanges$ = this.forexApiService
-    .listenRatesChangesFor(FxCurrency.Usd, { frequency: 3000 });
+  // TODO 1: define ratesChanges$ use forexApiService
 
-  sortedRatesChanges$ = combineLatest([
-    this.ratesChanges$,
-    this.sortByValue$,
-  ]).pipe(
-    map(([rates, sortByValue]) => {
-      return sortBy(rates, (rate) => (rate as any)[sortByValue]);
-    })
-  );
+  // TODO 2: define sortByValue$
+  //  + should start with: sortOptionsService.initialSortBy
+  //  + should not emit if value not changed
+
+  // TODO 3: define sortedRatesChanges$ - should emmit every time either rates or sortBy changes
 
   constructor(
     private forexApiService: ForexApiService,
