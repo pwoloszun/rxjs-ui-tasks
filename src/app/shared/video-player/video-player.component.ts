@@ -38,59 +38,47 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   );
 
   playBtnClick$ = new Subject<void>();
+
+  // TODO
+  // check if can play
+  // start play or do nothing
   private playVideo$ = this.playBtnClick$.pipe(
-    withLatestFrom(this.canPlay$),
-    filter(([_, canPlay]) => canPlay),
-    tap(() => this.status$.next(VideStatus.Playing))
   );
 
   pauseBtnClick$ = new Subject<void>();
+  // TODO
+  // check if can pause
+  // start pause or do nothing
   private pauseVideo$ = this.pauseBtnClick$.pipe(
-    withLatestFrom(this.canPause$),
-    filter(([_, canPause]) => canPause),
-    tap(() => this.status$.next(VideStatus.Paused))
   );
 
   stopBtnClick$ = new Subject<void>();
+  // TODO
+  // check if can stop
+  // stop or do nothing
   private stopVideo$ = this.stopBtnClick$.pipe(
-    withLatestFrom(this.canStop$),
-    filter(([_, canStop]) => canStop),
-    tap(() => {
-      this.status$.next(VideStatus.Idle);
-      this.timePassed$.next(0);
-    })
   );
 
+  // TODO
+  // run until timePassed < DURATION
+  // update time passed
+  // render video time left
+  // handle: Video Ended event
   private innerTimer$ = timer(0, FREQUENCY).pipe(
-    withLatestFrom(this.timePassed$),
-    takeWhile(([_, timePassed]) => {
-      return timePassed < DURATION;
-    }),
-    tap(([_, currTimePassed]) => {
-      const nextTimePassed = currTimePassed + FREQUENCY;
-      this.timePassed$.next(nextTimePassed);
-    }),
-    map(([_, ms]) => {
-      const leftMs = DURATION - ms;
-      return toTimeStr(leftMs, true);
-    }),
-    tap({
-      complete: () => {
-        this.status$.next(VideStatus.Ended);
-      }
-    })
   );
 
+  // TODO
+  // render Video time left
   video$ = this.status$.pipe(
     switchMap((status) => {
       if (status === VideStatus.Playing) {
-        return this.innerTimer$;
+        return EMPTY;
       } else if (status === VideStatus.Paused) {
         return EMPTY;
       } else if (status === VideStatus.Idle) {
-        return of(toTimeStr(DURATION, true));
+        return EMPTY;
       } else if (status === VideStatus.Ended) {
-        return of(toTimeStr(0, true));
+        return EMPTY;
       } else {
         return throwError(() => `Unknown Video Status: ${status}`);
       }
@@ -119,9 +107,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subCont.subscribeToAll([
-      this.playVideo$,
-      this.pauseVideo$,
-      this.stopVideo$
+      // TODO
     ]);
   }
 
