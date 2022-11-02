@@ -12,17 +12,28 @@
         </tr>
       </thead>
       <tbody class="text-center">
-        <tr *ngFor="let rate of sortedRatesChanges$ | async"
-            class="border-b">
-          <td class="p-2">{{ rate.isoCode }}</td>
-          <td class="p-2">{{ rate.rateValue }}</td>
-          <td class="p-2">{{ rate.updatedAt | date:'YYYY-MM-dd hh:mm' }}</td>
+        <tr class="border-b">
+          <td class="p-2"> rate.isoCode </td>
+          <td class="p-2"> rate.rateValue </td>
+          <td class="p-2"> rate.updatedAt | date:'YYYY-MM-dd hh:mm' </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="p-2"> test USD </td>
+          <td class="p-2"> 5.3 </td>
+          <td class="p-2"> 2022-03-09 13:22 </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="p-2"> test PLN </td>
+          <td class="p-2"> 3.79 </td>
+          <td class="p-2"> 2019-11-23 09:50 </td>
         </tr>
       </tbody>
     </table>
 
     <div>
-      <button (click)="updateRatesBtn$.next()"
+      <button (click)="updateBtnClick$.next()"
               class="btn-primary">
         Update
       </button>
@@ -41,7 +52,12 @@
       </mat-select>
     </mat-form-field>
 
-    <h3>Current SortBy: {{ sortByValue$ | async | json }}</h3>
+    <!-- TODO: tmp remove -->
+    <small class="block">
+      [TODO remove] Current sortBy: {{ sortByValueChanges$ | async | json }}
+    </small>
+
+    <h3>Current sortByValue: {{ sortByValue$ | async | json }}</h3>
 
     <mat-form-field appearance="outline">
       <mat-label>Sort By</mat-label>
@@ -54,10 +70,15 @@
       </mat-select>
     </mat-form-field>
 
-    <h3>Current Order: {{ orderValue$ | async | json }}</h3>
+    <!-- TODO: tmp remove -->
+    <small class="block">
+      [TODO remove] Current order: {{ orderValueChanges$ | async | json }}
+    </small>
+
+    <h3>Current orderValue: {{ orderValue$ | async | json }}</h3>
 
     <div>
-      <button (click)="sortBtn$.next()"
+      <button (click)="sortBtnClick$.next()"
               class="btn-primary">
         Sort
       </button>

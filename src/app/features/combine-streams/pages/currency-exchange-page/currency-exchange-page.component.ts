@@ -29,7 +29,7 @@ export class CurrencyExchangePageComponent implements OnInit {
 
   // TODO 2: define sortByValue$
   //  + should start with: sortOptionsService.initialSortBy
-  //  + should not emit if value not changed
+  //  + should not emit until value changed
 
   // TODO 3: define sortedRatesChanges$ - should emmit every time either rates or sortBy changes
 
