@@ -1,0 +1,30 @@
+<mat-card class="my-search-container">
+  <mat-card-header>
+    <mat-card-title>My Search</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="mat-search-content">
+    <div>
+
+      <mat-form-field>
+        <input [formControl]="searchTextCtrl"
+               matInput
+               placeholder="Search" />
+      </mat-form-field>
+
+      <h3>TODO Query: {{ queryValueChanges$ | async | json }}</h3>
+
+    </div>
+
+    <div>
+      <h5>Search results</h5>
+
+      <ul>
+        <li> search result 1 </li>
+        <li> search result 2 </li>
+        <li> search result 3 </li>
+        <li> search result 4 </li>
+      </ul>
+    </div>
+  </mat-card-content>
+</mat-card>

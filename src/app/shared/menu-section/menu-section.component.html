@@ -1,0 +1,23 @@
+<ng-container *ngIf="sectionData else errTmpl;">
+  <button class="btn-light"
+          [matMenuTriggerFor]="menu">
+    {{ sectionData.text }}
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <div class="flex flex-col py-2">
+
+      <a *ngFor="let link of sectionData.links"
+         mat-list-item
+         [routerLink]="link.path"
+         class="p-4 hover:underline hover:bg-gray-200">
+        {{ link.text }}
+      </a>
+
+    </div>
+  </mat-menu>
+</ng-container>
+
+<ng-template #errTmpl>
+  Error: No Section Data
+</ng-template>

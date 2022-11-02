@@ -1,0 +1,69 @@
+<p>lazy-forex-page</p>
+
+<div class="grid grid-cols-2 gap-4">
+  <div>
+    <table class="table-fixed w-full mb-4">
+      <thead class="bg-slate-300 p-2">
+        <tr>
+          <th *ngFor="let label of colLabels"
+              class="p-2">
+            {{ label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        <tr *ngFor="let rate of sortedRatesChanges$ | async"
+            class="border-b">
+          <td class="p-2">{{ rate.isoCode }}</td>
+          <td class="p-2">{{ rate.rateValue }}</td>
+          <td class="p-2">{{ rate.updatedAt | date:'YYYY-MM-dd hh:mm' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      <button (click)="updateRatesBtn$.next()"
+              class="btn-primary">
+        Update
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Sort By</mat-label>
+
+      <mat-select [formControl]="sortByCtrl">
+        <mat-option *ngFor="let sortBy of sortByOptions"
+                    [value]="sortBy.value">
+          {{ sortBy.text }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h3>Current SortBy: {{ sortByValue$ | async | json }}</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Sort By</mat-label>
+
+      <mat-select [formControl]="orderCtrl">
+        <mat-option *ngFor="let order of orderOptions"
+                    [value]="order.value">
+          {{ order.text }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h3>Current Order: {{ orderValue$ | async | json }}</h3>
+
+    <div>
+      <button (click)="sortBtn$.next()"
+              class="btn-primary">
+        Sort
+      </button>
+
+      <h3>Full sort Info: {{ sortInfo$ | async | json }}</h3>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,31 @@
+<h3>observable-ui-events</h3>
+
+<div class="grid grid-cols-4 gap-2 mb-2">
+  <div>
+    <button (click)="subjectTestHandler($event)"
+            class="btn-primary">
+      Subject Test
+    </button>
+  </div>
+
+  <div>
+    <button (click)="subBtnClick$.next($event)"
+            class="btn-primary">
+      Better Subject Test
+    </button>
+  </div>
+
+  <div>
+    <button #vChildTestBtn
+            class="btn-primary">
+      ViewChild Test
+    </button>
+  </div>
+</div>
+
+<div class="border border-black p-4">
+  <h5>Test results</h5>
+  <h3 class="m-0 p-2 bg-slate-700 text-white">
+    {{ anyBtnResult$ | async }}
+  </h3>
+</div>
