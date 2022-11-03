@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { of } from 'rxjs';
 
 import { SearchApiService } from '@api/search-api.service';
+import { filter, map, of, switchMap, debounceTime } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 const MIN_SEARCH_QUERY_LENGTH = 2;
 
@@ -16,14 +17,18 @@ export class MySearchComponent {
   searchTextCtrl = new FormControl('');
 
   // TODO
-  queryValueChanges$ = this.searchTextCtrl.valueChanges;
-
-  // TODO
-  searchResults$ = of([
-    'res 11',
-    'res 12',
-    'res 13',
-  ]);
+  // min length: MIN_SEARCH_QUERY_LENGTH
+  // throttle/debounce 1200
+  // ignore if query did not change:
+  // send req
+  // handle ONLY latest req + cancel previous req
+  searchResults$ = this.searchTextCtrl.valueChanges.pipe(
+    map((query) => query === null ? '' : query),
+    debounceTime(1200),
+    filter((q) => q.length > MIN_SEARCH_QUERY_LENGTH),
+    distinctUntilChanged(),
+    switchMap((query: string) => this.searchApiService.querySearch$(query))
+  );
 
   constructor(private searchApiService: SearchApiService) { }
 
