@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { delay, of, tap } from 'rxjs';
+
+import { PersonService } from '@features/fundamentals/services/person.service';
+import { share, shareReplay } from 'rxjs';
+import { SubscriptionContainer } from '../../../../utils/subscription-container';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -9,27 +12,30 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   title = 'Dashboard';
 
-  person$ = this.getPerson$();
+  person$ = this.personService.getPerson$().pipe(
+    shareReplay()
+  );
 
-  constructor() { }
+  private subCont = new SubscriptionContainer();
+
+  constructor(private personService: PersonService) { }
 
   ngOnInit(): void {
-    // TODO
-    // setTimeout(() => {
-    //   console.log('Later subscription');
-    // }, 4000);
-  }
+    // this.subCont.add = this.person$.subscribe((data) => {
+    //   this.p = data;
+    // });
 
-  getPerson$() {
-    return of({ name: 'bob', age: 123 }).pipe(
-      tap(() => console.log('REQUEST fetch person')),
-      delay(2000),
-      tap(() => console.log('RESPONSE fetch person')),
-    );
+    // TODO
+    setTimeout(() => {
+      console.log('Later subscription');
+      this.subCont.add = this.person$
+        .subscribe((d) => console.log('qq:', d));
+    }, 4000);
   }
 
   ngOnDestroy(): void {
     // cleanup
+    this.subCont.dispose();
   }
 
 }

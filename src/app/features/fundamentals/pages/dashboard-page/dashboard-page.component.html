@@ -1,9 +1,19 @@
 <h3>Welcom to {{ title }}</h3>
 
-<div>
-  Name: TODO
+<ng-container *ngIf="person$ | async as per">
+  <div>
+    Name: {{ per.name }}
+  </div>
+
+  <div>
+    Age: {{ per.age }}
+  </div>
+</ng-container>
+
+<div *ngIf="person$ | async as per">
+  Name: {{ per.name }}
 </div>
 
-<div>
-  Age: TODO
+<div *ngIf="person$ | async as per">
+  Age: {{ per.age }}
 </div>
