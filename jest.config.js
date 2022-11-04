@@ -5,10 +5,9 @@ module.exports = {
   globalSetup: 'jest-preset-angular/global-setup',
   moduleNameMapper: {
     'src/(.*)': '<rootDir>/src/$1',
-    '@api/(.*)': '<rootDir>/src/api/$1',
-    '@features/(.*)': '<rootDir>/src/features/$1',
-    '@shared/(.*)': '<rootDir>/src/shared/$1',
-    '@utils/(.*)': '<rootDir>/src/utils/$1',
+    '@api/(.*)': '<rootDir>/src/app/api/$1',
+    '@features/(.*)': '<rootDir>/src/app/features/$1',
+    '@shared/(.*)': '<rootDir>/src/app/shared/$1',
+    '@utils/(.*)': '<rootDir>/src/app/utils/$1',
   },
 };
-
