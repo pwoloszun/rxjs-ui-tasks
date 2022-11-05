@@ -1,23 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { render, screen, within } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 
 import { LiveSearchPageComponent } from './live-search-page.component';
 
 describe('LiveSearchPageComponent', () => {
-  let component: LiveSearchPageComponent;
-  let fixture: ComponentFixture<LiveSearchPageComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ LiveSearchPageComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(LiveSearchPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  it.skip('should TODO', () => {
+    expect(true).toEqual(false);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
