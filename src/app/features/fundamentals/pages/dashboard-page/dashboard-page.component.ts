@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { PersonService } from '@features/fundamentals/services/person.service';
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
 })
-export class DashboardPageComponent implements OnInit {
+export class DashboardPageComponent implements OnInit, OnDestroy {
 
-  title = 'Dashboard';
+  person$ = this.personService.getPerson$();
 
-  constructor() { }
+  constructor(private personService: PersonService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void { }
 
 }
