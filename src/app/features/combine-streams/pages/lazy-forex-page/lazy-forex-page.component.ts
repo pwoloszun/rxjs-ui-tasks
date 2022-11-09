@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { of, Subject, switchMap } from 'rxjs';
+import { combineLatest, of, Subject, switchMap, startWith, distinctUntilChanged } from 'rxjs';
 import { orderBy } from 'lodash';
 
 import { ForexApiService, FxCurrency } from '@api/forex-api.service';
 
 import { ForexSortOptionsService } from '../../services/forex-sort-options.service';
+import { combineLatestWith, map, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lazy-forex-page',
@@ -48,17 +49,27 @@ export class LazyForexPageComponent implements OnInit {
   // TODO 2:
   //  + should start with: sortOptionsService.initialSortBy
   //  + should not emit until value changed
-  sortByValue$ = of(null);
+  sortByValue$ = this.sortByCtrl.valueChanges.pipe(
+    startWith(this.sortOptionsService.initialSortBy),
+    distinctUntilChanged()
+  );
 
   // TODO 3:
   //  + should start with: sortOptionsService.initialOrder
   //  + should not emit until value changed
-  orderValue$ = of(null);
+  orderValue$ = this.orderCtrl.valueChanges.pipe(
+    startWith(this.sortOptionsService.initialOrder),
+    distinctUntilChanged()
+  );
 
   // TODO 4:
   // + every time sortBtn clicked
   // + should emit array: [currentSortBy, currentOrder]
-  sortInfo$ = of(['rateValue', 'desc']);
+  sortInfo$ = this.sortBtnClick$.pipe(
+    startWith(123),
+    withLatestFrom(this.sortByValue$, this.orderValue$),
+    map(([_, sortByValue, orderValue]) => [sortByValue, orderValue])
+  );
 
   // TODO 5:
   // + should emit every time either rates or full sortInfo changes
