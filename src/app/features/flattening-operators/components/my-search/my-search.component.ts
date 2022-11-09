@@ -31,6 +31,14 @@ export class MySearchComponent {
     switchMap((query) => this.searchApiService.querySearch$(query!))
   );
 
+  searchResultsRefactored$ = this.searchTextCtrl.valueChanges.pipe(
+    filter((query) => query !== null),
+    debounceTime(800),
+    filter((q) => q!.length >= MIN_SEARCH_QUERY_LENGTH),
+    distinctUntilChanged(),
+    switchMap((query) => this.searchApiService.querySearch$(query!))
+  );
+
   constructor(private searchApiService: SearchApiService) { }
 
 }
