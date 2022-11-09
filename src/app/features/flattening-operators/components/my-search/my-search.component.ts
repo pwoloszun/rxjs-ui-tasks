@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { SearchApiService } from '@api/search-api.service';
 
-const MIN_SEARCH_QUERY_LENGTH = 2;
+const MIN_SEARCH_QUERY_LENGTH = 3;
 
 @Component({
   selector: 'app-my-search',
@@ -15,10 +15,16 @@ export class MySearchComponent {
 
   searchTextCtrl = new FormControl('');
 
-  // TODO
+  // TODO 1B: on searchTextCtrl change - send REQ (usesearchApiService)
+  // + handle only latest/newest REQ
+  // TODO 2A: searchTextCtrl change requirements:
+  // + skip if search query did not change
+  // + debounce/throtttle by 800ms
+  // + minimum search query legth: MIN_SEARCH_QUERY_LENGTH
+  //
   queryValueChanges$ = this.searchTextCtrl.valueChanges;
 
-  // TODO
+  // TODO 1A: render searchResults$
   searchResults$ = of([
     'res 11',
     'res 12',
