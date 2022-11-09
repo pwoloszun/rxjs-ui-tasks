@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, map, filter, switchMap } from 'rxjs';
 
 import { SearchApiService } from '@api/search-api.service';
 
@@ -22,14 +22,14 @@ export class MySearchComponent {
   // + debounce/throtttle by 800ms
   // + minimum search query legth: MIN_SEARCH_QUERY_LENGTH
   //
-  queryValueChanges$ = this.searchTextCtrl.valueChanges;
-
   // TODO 1A: render searchResults$
-  searchResults$ = of([
-    'res 11',
-    'res 12',
-    'res 13',
-  ]);
+  searchResults$ = this.searchTextCtrl.valueChanges.pipe(
+    filter((query) => query !== null),
+    switchMap((query) => {
+      const req$ = this.searchApiService.querySearch$(query!);
+      return req$;
+    })
+  );
 
   constructor(private searchApiService: SearchApiService) { }
 
