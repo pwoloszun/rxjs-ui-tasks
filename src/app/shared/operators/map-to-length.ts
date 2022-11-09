@@ -1,5 +1,7 @@
 import { from, map, OperatorFunction } from 'rxjs';
 
+import { fullObserver } from '@utils/full-observer';
+
 interface IWithLength {
   length: number;
 }
@@ -12,6 +14,10 @@ export function mapToLength(): OperatorFunction<IWithLength, number> {
   };
 }
 
-from(['a', 'b']).pipe(
-  mapToLength()
-).subscribe()
+function exampleUsage() {
+  from(['aa', 'bbbbb', '', 'ddd']).pipe(
+    mapToLength()
+  ).subscribe(fullObserver(`mapToLength exampleUsage`));
+}
+
+// exampleUsage();
