@@ -51,7 +51,7 @@
     <h3>Current sortByValue: {{ sortByValue$ | async | json }}</h3>
 
     <mat-form-field appearance="outline">
-      <mat-label>Sort By</mat-label>
+      <mat-label>Order</mat-label>
 
       <mat-select [formControl]="orderCtrl">
         <mat-option *ngFor="let order of orderOptions"
