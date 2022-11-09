@@ -43,13 +43,6 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- TODO: tmp remove -->
-    <small class="block">
-      [TODO remove] Current sortBy: {{ sortByValueChanges$ | async | json }}
-    </small>
-
-    <h3>Current sortByValue: {{ sortByValue$ | async | json }}</h3>
-
     <mat-form-field appearance="outline">
       <mat-label>Order</mat-label>
 
@@ -61,20 +54,11 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- TODO: tmp remove -->
-    <small class="block">
-      [TODO remove] Current order: {{ orderValueChanges$ | async | json }}
-    </small>
-
-    <h3>Current orderValue: {{ orderValue$ | async | json }}</h3>
-
     <div>
       <button (click)="sortBtnClick$.next()"
               class="btn-primary">
         Sort
       </button>
-
-      <h3>Full sort Info: {{ sortInfo$ | async | json }}</h3>
     </div>
   </div>
 
