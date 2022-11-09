@@ -7,6 +7,7 @@ import { ForexApiService, FxCurrency } from '@api/forex-api.service';
 
 import { ForexSortOptionsService } from '../../services/forex-sort-options.service';
 import { combineLatestWith, map, withLatestFrom } from 'rxjs/operators';
+import { ICurrencyRate } from 'src/fake-libs/forex-fake-api';
 
 @Component({
   selector: 'app-lazy-forex-page',
@@ -75,7 +76,14 @@ export class LazyForexPageComponent implements OnInit {
   // + should emit every time either rates or full sortInfo changes
   // + should order rates based on full sortInfo (sortBy, order)
   // see: orderBy function on https://lodash.com/docs
-  sortedRatesChanges$ = of([]);
+  sortedRatesChanges$ = combineLatest([
+    this.rates$,
+    this.sortInfo$
+  ]).pipe(
+    map(([rates, [sortByValue, orderValue]]) => {
+      return orderBy(rates, [sortByValue], [orderValue as 'asc' | 'desc']) as ICurrencyRate[];
+    })
+  );
 
   constructor(
     private forexApiService: ForexApiService,
