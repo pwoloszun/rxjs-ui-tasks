@@ -25,10 +25,7 @@ export class MySearchComponent {
     debounceTime(800),
     filter((query) => query.length >= MIN_SEARCH_QUERY_LENGTH),
     distinctUntilChanged(),
-    switchMap((query) => {
-      const req$ = this.searchApiService.querySearch$(query);
-      return req$;
-    })
+    switchMap((query) => this.searchApiService.querySearch$(query))
   );
 
   constructor(private searchApiService: SearchApiService) { }
