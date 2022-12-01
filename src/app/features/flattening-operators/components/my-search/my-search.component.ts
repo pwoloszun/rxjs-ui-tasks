@@ -7,9 +7,9 @@ import { map, of } from 'rxjs';
 
 
 import { SearchApiService } from '@api/search-api.service';
-import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, switchMap, distinctUntilChanged, filter } from 'rxjs/operators';
 
-const MIN_SEARCH_QUERY_LENGTH = 2;
+const MIN_SEARCH_QUERY_LENGTH = 3;
 
 @Component({
   selector: 'app-my-search',
@@ -22,6 +22,9 @@ export class MySearchComponent {
 
   searchResults$ = this.searchTextCtrl.valueChanges.pipe(
     map((query) => query || ''),
+    debounceTime(800),
+    filter((query) => query.length >= MIN_SEARCH_QUERY_LENGTH),
+    distinctUntilChanged(),
     switchMap((query) => {
       const req$ = this.searchApiService.querySearch$(query);
       return req$;
