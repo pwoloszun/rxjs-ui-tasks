@@ -31,7 +31,11 @@ export class MySearchComponent {
 
   searchResults$ = this.searchTextCtrl.valueChanges.pipe(
     map((query) => query || ''),
-    liveSearch(800, (query) => this.searchApiService.querySearch$(query), 4),
+    liveSearch(
+      800,
+      (query) => this.searchApiService.querySearch$(query),
+      4
+    ),
   );
 
   constructor(private searchApiService: SearchApiService) { }
