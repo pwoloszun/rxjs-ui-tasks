@@ -1,11 +1,23 @@
 <h3>Dashboard</h3>
 
-<div class="border p-2">
-  Name: {{ personData?.name }}
+<div *ngIf="person$ | async as person"
+     class="border p-2">
+  Name: {{ person.name }}
 </div>
 
-<div class="border p-2">
-  Age: {{ personData?.age }}
+<div *ngIf="person$ | async as person"
+     class="border p-2">
+  Age: {{ person.age }}
 </div>
 
 <hr class="my-6" />
+
+<!-- <ng-container *ngIf="person$ | async as person">
+  <div class="border p-2">
+    Name: {{ person.name }}
+  </div>
+
+  <div class="border p-2">
+    Age: {{ person.age }}
+  </div>
+</ng-container> -->
