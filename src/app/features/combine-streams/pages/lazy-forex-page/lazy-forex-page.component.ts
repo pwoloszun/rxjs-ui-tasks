@@ -6,7 +6,7 @@ import { orderBy } from 'lodash';
 import { ForexApiService, FxCurrency } from '@api/forex-api.service';
 
 import { ForexSortOptionsService } from '../../services/forex-sort-options.service';
-import { exhaustMap, startWith } from 'rxjs/operators';
+import { exhaustMap, map, startWith, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lazy-forex-page',
@@ -65,7 +65,11 @@ export class LazyForexPageComponent implements OnInit {
   // TODO 4:
   // + every time sortBtn clicked
   // + should emit array: [currentSortBy, currentOrder]
-  sortInfo$ = of(['rateValue', 'desc']);
+  sortInfo$ = this.sortBtnClick$.pipe(
+    startWith(undefined),
+    withLatestFrom(this.sortByValue$, this.orderValue$),
+    map(([_, currSortBy, currOrder]) => [currSortBy, currOrder])
+  );
 
   // TODO 5:
   // + should emit every time either rates or full sortInfo changes
