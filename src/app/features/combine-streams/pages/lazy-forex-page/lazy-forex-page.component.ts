@@ -6,6 +6,7 @@ import { orderBy } from 'lodash';
 import { ForexApiService, FxCurrency } from '@api/forex-api.service';
 
 import { ForexSortOptionsService } from '../../services/forex-sort-options.service';
+import { exhaustMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lazy-forex-page',
@@ -29,7 +30,7 @@ export class LazyForexPageComponent implements OnInit {
   orderCtrl = new FormControl(this.sortOptionsService.initialOrder);
 
   updateBtnClick$ = new Subject<void>();
-  sortBtnClick$ = new Subject<void>();;
+  sortBtnClick$ = new Subject<void>();
 
 
   // TODO tmp remove
@@ -41,7 +42,9 @@ export class LazyForexPageComponent implements OnInit {
   // TODO 1:
   // + every time updateBtn clicked
   // + should ONCE emit current rates for: FxCurrency.Usd (use: forexApiService)
-  rates$ = of([]);
+  rates$ = this.updateBtnClick$.pipe(
+    exhaustMap(() => this.forexApiService.getCurrentRatesFor(FxCurrency.Usd))
+  );
 
   // TODO 2:
   //  + should start with: sortOptionsService.initialSortBy
