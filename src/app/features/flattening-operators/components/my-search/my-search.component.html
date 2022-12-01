@@ -12,18 +12,15 @@
                placeholder="Search" />
       </mat-form-field>
 
-      <h3>TODO Query: {{ queryValueChanges$ | async | json }}</h3>
-
     </div>
 
     <div>
       <h5>Search results</h5>
 
       <ul>
-        <li> search result 1 </li>
-        <li> search result 2 </li>
-        <li> search result 3 </li>
-        <li> search result 4 </li>
+        <li *ngFor="let searchResult of searchResults$ | async">
+          {{ searchResult }}
+        </li>
       </ul>
     </div>
   </mat-card-content>
