@@ -1,4 +1,4 @@
-import { map, Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, Observable, OperatorFunction, switchMap } from 'rxjs';
 
 type DataProducerFn<T> = (query: string) => Observable<T>;
 
@@ -9,9 +9,14 @@ export function liveSearch<T>(
   producer: DataProducerFn<T>,
   minLength = DEFAULT_MIN_LENGTH
 ): OperatorFunction<string, T> {
+
   return function (source$) {
     return source$.pipe(
-      map(() => 123 as T) // TODO
+      debounceTime(time),
+      filter((query) => query.length >= minLength),
+      distinctUntilChanged(),
+      switchMap(producer)
     );
   };
+
 }
