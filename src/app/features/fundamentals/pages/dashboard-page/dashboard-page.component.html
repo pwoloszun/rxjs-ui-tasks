@@ -1,11 +1,40 @@
 <h3>Dashboard</h3>
 
+<!-- <h3>IMPERATIVE VER</h3>
 <div class="border p-2">
-  Name: TODO
+  Name: {{ personData?.name }}
 </div>
 
 <div class="border p-2">
-  Age: TODO
+  Age: {{ personData?.age }}
+</div> -->
+
+<hr class="my-6" />
+
+<h3>DECLARATIVE VER 1</h3>
+<ng-container *ngIf="person$ | async as per">
+  <div class="border p-2">
+    Name: {{ per.name }}
+  </div>
+
+  <div class="border p-2">
+    Age: {{ per.age }}
+  </div>
+</ng-container>
+
+<hr class="my-6" />
+
+
+<h3>DECLARATIVE VER 22</h3>
+
+<div class="border p-2"
+     *ngIf="person$ | async as per">
+  Name: {{ per.name }}
+</div>
+
+<div class="border p-2"
+     *ngIf="person$ | async as per">
+  Age: {{ per.age }}
 </div>
 
 <hr class="my-6" />

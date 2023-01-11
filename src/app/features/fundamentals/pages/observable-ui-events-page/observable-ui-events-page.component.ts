@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Output, ViewChild } from '@angular/core';
 import { fromEvent, map, Observable, Subject, merge, tap } from 'rxjs';
 
 @Component({

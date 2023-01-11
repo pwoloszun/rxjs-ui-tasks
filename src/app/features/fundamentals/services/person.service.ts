@@ -11,7 +11,7 @@ export class PersonService {
   getPerson$() {
     return of({ name: 'bob', age: 123 }).pipe(
       tap(() => console.log('REQUEST fetch person')),
-      delay(2000),
+      delay(3000),
       tap(() => console.log('RESPONSE fetch person')),
     );
   }
