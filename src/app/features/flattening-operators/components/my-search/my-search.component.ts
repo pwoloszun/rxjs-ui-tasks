@@ -17,7 +17,7 @@ const MIN_SEARCH_QUERY_LENGTH = 3;
 })
 export class MySearchComponent {
 
-  searchTextCtrl = new FormControl('');
+  searchTextCtrl = new FormControl('', { nonNullable: true });
 
   // TODO
   queryValueChanges$ = this.searchTextCtrl.valueChanges;
@@ -25,7 +25,7 @@ export class MySearchComponent {
   // TODO 2:
   // listen to seearchText value changes
   // - perform search using searchApiService.querySearch$(`some text`)
-  // - "CANCEL" previous search every time new search query arrives
+  //    - "CANCEL" previous search every time new search query arrives
   // - debounce 800
   // - ignore if query did not change
   // - ignore if query length < 3
