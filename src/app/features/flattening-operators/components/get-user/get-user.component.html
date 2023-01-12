@@ -7,11 +7,14 @@
   </mat-card-content>
   <mat-card-actions>
 
-    <button (click)="testTmp()"
+    <button (click)="downloadUserBtnClick$.next()"
             color="warn"
             mat-raised-button>
       Download User
     </button>
 
+    <div>
+      User: {{ userData$ | async | json }}
+    </div>
   </mat-card-actions>
 </mat-card>

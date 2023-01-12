@@ -5,6 +5,7 @@ import { ErrorModalComponent } from '@shared/error-modal';
 import { FakeApiService } from '@api/fake-api.service';
 import { fullObserver } from '@utils/full-observer';
 import { SubscriptionContainer } from '@utils/subscription-container';
+import { catchError, NEVER, of, retry, Subject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-get-user',
@@ -12,15 +13,26 @@ import { SubscriptionContainer } from '@utils/subscription-container';
 })
 export class GetUserComponent implements OnInit, OnDestroy {
 
-  private subCont = new SubscriptionContainer();
-
-  // TODO
-  private downloadUser$ = this.fakeApiService
-    .failedRequest$('/user/100', `Cant't find User ID=100`);
-
-  // TODO
   private logError$ = this.fakeApiService
     .successfulRequest$('/log/error', { error: new Error(`some err desc`) });
+
+  downloadUserBtnClick$ = new Subject<void>();
+
+  userData$ = this.downloadUserBtnClick$.pipe(
+    switchMap(
+      () => this.fakeApiService
+        .failedRequest$('/user/100', `Cant't find User ID=100`)
+        .pipe(
+          retry(2),
+        )
+    ),
+    catchError((err) => {
+      this.openErrorSnackBar(err.message, 5_000);
+      // TODO: gather subscription and free mem on destroy
+      this.logError$.subscribe();
+      return NEVER;
+    })
+  );
 
   constructor(
     private fakeApiService: FakeApiService,
