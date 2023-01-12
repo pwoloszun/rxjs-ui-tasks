@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PersonService } from '@features/fundamentals/services/person.service';
-import { share, shareReplay, startWith, Subscription } from 'rxjs';
+import { interval, share, shareReplay, startWith, Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -9,11 +9,19 @@ import { share, shareReplay, startWith, Subscription } from 'rxjs';
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
+  private detroy$ = new Subject<void>();
+
   person$ = this.personService.getPerson$().pipe(
-    startWith({ name: '', age: null })
+    startWith({ name: '', age: null }),
     // share()
-    // shareReplay()
+    // takeUntil(this.detroy$),
+    shareReplay({ refCount: true })
   );
+
+
+  // hotInter$ = interval(500).pipe(
+  //   shareReplay({ refCount: true })
+  // );
 
   // IMPERATIVE subscription
   // personData: any;
@@ -40,6 +48,8 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   // IMPERATIVE subscription
   ngOnDestroy(): void {
     console.log('DESTR:',);
+
+    this.detroy$.next();
     // this.subscriptions.forEach((s) => s.unsubscribe());
   }
 

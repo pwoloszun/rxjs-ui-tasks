@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { of } from 'rxjs';
+import { debounceTime, of } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { SearchApiService } from '@api/search-api.service';
 
-const MIN_SEARCH_QUERY_LENGTH = 2;
+const MIN_SEARCH_QUERY_LENGTH = 3;
+
+// debounceTime
+// distinctUntilChanged
 
 @Component({
   selector: 'app-my-search',
@@ -18,12 +22,19 @@ export class MySearchComponent {
   // TODO
   queryValueChanges$ = this.searchTextCtrl.valueChanges;
 
-  // TODO
+  // TODO 2:
+  // listen to seearchText value changes
+  // - perform search using searchApiService.querySearch$(`some text`)
+  // - debounce 800
+  // - ignore if query did not change
+  // - ignore if query length < 3
   searchResults$ = of([
     'res 11',
     'res 12',
     'res 13',
   ]);
+
+
 
   constructor(private searchApiService: SearchApiService) { }
 
