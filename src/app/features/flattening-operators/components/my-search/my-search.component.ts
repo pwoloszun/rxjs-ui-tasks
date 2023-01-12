@@ -25,9 +25,11 @@ export class MySearchComponent {
   // TODO 2:
   // listen to seearchText value changes
   // - perform search using searchApiService.querySearch$(`some text`)
+  // - "CANCEL" previous search every time new search query arrives
   // - debounce 800
   // - ignore if query did not change
   // - ignore if query length < 3
+  //
   searchResults$ = of([
     'res 11',
     'res 12',
