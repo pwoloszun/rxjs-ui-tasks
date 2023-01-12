@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, of } from 'rxjs';
-import { distinctUntilChanged, map, switchAll, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchAll, switchMap } from 'rxjs/operators';
 
 import { SearchApiService } from '@api/search-api.service';
 
@@ -19,9 +19,6 @@ export class MySearchComponent {
 
   searchTextCtrl = new FormControl('', { nonNullable: true });
 
-  // TODO
-  queryValueChanges$ = this.searchTextCtrl.valueChanges;
-
   // TODO 2:
   // listen to seearchText value changes
   // - perform search using searchApiService.querySearch$(`some text`)
@@ -31,12 +28,11 @@ export class MySearchComponent {
   // - ignore if query length < 3
   //
   searchResults$ = this.searchTextCtrl.valueChanges.pipe(
-    // map((query) => this.searchApiService.querySearch$(query)),
-    // switchAll()
+    debounceTime(800),
+    filter((query) => query.length >= MIN_SEARCH_QUERY_LENGTH),
+    distinctUntilChanged(),
     switchMap((query) => this.searchApiService.querySearch$(query))
   );
-
-
 
   constructor(private searchApiService: SearchApiService) { }
 
