@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map, of, Subject, switchMap } from 'rxjs';
+import { map, of, Subject, switchMap, distinctUntilChanged, startWith } from 'rxjs';
 import { orderBy } from 'lodash';
 
 import { ForexApiService, FxCurrency } from '@api/forex-api.service';
@@ -48,12 +48,18 @@ export class LazyForexPageComponent implements OnInit {
   // TODO 2:
   //  + should start with: sortOptionsService.initialSortBy
   //  + should not emit until value changed
-  sortByValue$ = of(null);
+  sortByValue$ = this.sortByCtrl.valueChanges.pipe(
+    startWith(this.sortOptionsService.initialSortBy),
+    distinctUntilChanged()
+  );
 
   // TODO 3:
   //  + should start with: sortOptionsService.initialOrder
   //  + should not emit until value changed
-  orderValue$ = of(null);
+  orderValue$ = this.orderCtrl.valueChanges.pipe(
+    startWith(this.sortOptionsService.initialOrder),
+    distinctUntilChanged()
+  );
 
   // TODO 4:
   // + every time sortBtn clicked
