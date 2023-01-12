@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, of } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchAll, switchMap } from 'rxjs/operators';
 
 import { SearchApiService } from '@api/search-api.service';
 
@@ -30,11 +30,11 @@ export class MySearchComponent {
   // - ignore if query did not change
   // - ignore if query length < 3
   //
-  searchResults$ = of([
-    'res 11',
-    'res 12',
-    'res 13',
-  ]);
+  searchResults$ = this.searchTextCtrl.valueChanges.pipe(
+    // map((query) => this.searchApiService.querySearch$(query)),
+    // switchAll()
+    switchMap((query) => this.searchApiService.querySearch$(query))
+  );
 
 
 
