@@ -12,23 +12,14 @@
         </tr>
       </thead>
       <tbody class="text-center">
-        <tr class="border-b">
-          <td class="p-2"> rate.isoCode </td>
-          <td class="p-2"> rate.rateValue </td>
-          <td class="p-2"> rate.updatedAt | date:'YYYY-MM-dd hh:mm' </td>
+
+        <tr *ngFor="let rate of rates$ | async"
+            class="border-b">
+          <td class="p-2"> {{ rate.isoCode }} </td>
+          <td class="p-2"> {{rate.rateValue}} </td>
+          <td class="p-2"> {{rate.updatedAt | date:'YYYY-MM-dd hh:mm'}} </td>
         </tr>
 
-        <tr class="border-b">
-          <td class="p-2"> test USD </td>
-          <td class="p-2"> 5.3 </td>
-          <td class="p-2"> 2022-03-09 13:22 </td>
-        </tr>
-
-        <tr class="border-b">
-          <td class="p-2"> test PLN </td>
-          <td class="p-2"> 3.79 </td>
-          <td class="p-2"> 2019-11-23 09:50 </td>
-        </tr>
       </tbody>
     </table>
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { of, Subject } from 'rxjs';
+import { map, of, Subject, switchMap } from 'rxjs';
 import { orderBy } from 'lodash';
 
 import { ForexApiService, FxCurrency } from '@api/forex-api.service';
@@ -41,7 +41,9 @@ export class LazyForexPageComponent implements OnInit {
   // TODO 1:
   // + every time updateBtn clicked
   // + should ONCE emit current rates for: FxCurrency.Usd (use: forexApiService)
-  rates$ = of([]);
+  rates$ = this.updateBtnClick$.pipe(
+    switchMap(() => this.forexApiService.getCurrentRatesFor(FxCurrency.Usd)),
+  );
 
   // TODO 2:
   //  + should start with: sortOptionsService.initialSortBy
