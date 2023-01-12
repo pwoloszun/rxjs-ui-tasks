@@ -20,10 +20,9 @@
       <h5>Search results</h5>
       <!-- TODO 1 use searchResults$ -->
       <ul>
-        <li> search result 1 </li>
-        <li> search result 2 </li>
-        <li> search result 3 </li>
-        <li> search result 4 </li>
+        <li *ngFor="let searchRes of searchResults$ | async">
+          {{ searchRes }}
+        </li>
       </ul>
     </div>
   </mat-card-content>
