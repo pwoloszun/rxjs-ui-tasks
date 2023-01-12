@@ -25,8 +25,8 @@ export class LazyForexPageComponent implements OnInit {
     return this.sortOptionsService.getOrderOptions();
   }
 
-  sortByCtrl = new FormControl(this.sortOptionsService.initialSortBy);
-  orderCtrl = new FormControl(this.sortOptionsService.initialOrder);
+  sortByCtrl = new FormControl(this.sortOptionsService.initialSortBy, { nonNullable: true });
+  orderCtrl = new FormControl(this.sortOptionsService.initialOrder, { nonNullable: true });
 
   updateBtnClick$ = new Subject<void>();
   sortBtnClick$ = new Subject<void>();;
